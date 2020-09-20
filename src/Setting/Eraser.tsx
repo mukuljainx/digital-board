@@ -5,7 +5,7 @@ import { IBoardSetting } from "../interfaces";
 import eraser from "../assets/eraser.svg";
 import Popup from "../components/Popup";
 import Slider from "../components/Slider";
-import { ItemWrapper, Icon, Badge } from "./atom";
+import { ItemWrapper, Icon, Badge, Label } from "./atom";
 
 interface IProps {
   selected: boolean;
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
-const Brush = ({ selected, onChange, onClick }: IProps) => {
+const Eraser = ({ selected, onChange, onClick }: IProps) => {
   const [width, setWidth] = React.useState(1);
   const firstRun = React.useRef(true);
 
@@ -49,7 +49,8 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
       }
     >
       <Wrapper>
-        <ItemWrapper column>
+        <ItemWrapper flex>
+          <Label>Size:</Label>
           <Slider
             value={width}
             min={1}
@@ -63,4 +64,4 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
   );
 };
 
-export default React.memo(Brush);
+export default React.memo(Eraser);

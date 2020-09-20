@@ -2,10 +2,11 @@ import * as React from "react";
 import styled from "styled-components";
 
 import { IBoardSetting, BoardToolType } from "../interfaces";
+import { boardSettings } from "../default";
 import Brush from "./Brush";
 import Highlighter from "./Highlighter";
-import { boardSettings } from "../default";
 import Eraser from "./Eraser";
+import Text from "./Text";
 
 interface IProps {
   settings: IBoardSetting;
@@ -40,6 +41,13 @@ const Setting = ({ setSettings }: IProps) => {
 
   return (
     <Wrapper>
+      <Text
+        onClick={() => {
+          setSelected("TEXT");
+        }}
+        onChange={(params) => updateSetting({ ...params, text: true })}
+        selected={"TEXT" === selected}
+      />
       <Brush
         onClick={() => {
           setSelected("BRUSH");

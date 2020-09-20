@@ -4,6 +4,8 @@ export interface IBoardSetting {
   smooth: CanvasLineCap;
   highlight: boolean;
   eraser: boolean;
+  text: boolean;
+  fontSize: number;
 }
 
-export type BoardToolType = "BRUSH" | "HIGHLIGHTER" | "ERASER";
+export type BoardToolType = "BRUSH" | "HIGHLIGHTER" | "ERASER" | "TEXT";

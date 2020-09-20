@@ -6,6 +6,7 @@ import highlighter from "../assets/highlighter.svg";
 import Popup from "../components/Popup";
 import ColorPicker from "../components/ColorPicker";
 import { ItemWrapper, Icon } from "./atom";
+import useColor from "./useColorHook";
 
 interface IProps {
   selected: boolean;
@@ -20,8 +21,9 @@ const Wrapper = styled.div`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
-const Brush = ({ selected, onChange, onClick }: IProps) => {
+const HighLighter = ({ selected, onChange, onClick }: IProps) => {
   const [color, setColor] = React.useState("rgb(255,255,0)");
+  const picker = useColor();
   const firstRun = React.useRef(true);
 
   React.useEffect(() => {
@@ -30,7 +32,7 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
       return;
     }
     onChange({ width: 5, color: color });
-  }, [color]);
+  }, [color, picker.colors]);
 
   return (
     <Popup
@@ -48,13 +50,17 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
         </ItemWrapper>
       }
     >
-      <Wrapper>
+      <Wrapper style={{ width: "120px" }}>
         <ItemWrapper>
-          <ColorPicker value={color} onChange={(color) => setColor(color)} />
+          <ColorPicker
+            {...picker}
+            value={color}
+            onChange={(color) => setColor(color)}
+          />
         </ItemWrapper>
       </Wrapper>
     </Popup>
   );
 };
 
-export default React.memo(Brush);
+export default React.memo(HighLighter);

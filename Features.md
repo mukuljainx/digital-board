@@ -17,9 +17,6 @@ Make strokes which removes the drawing part, drawn over. : done
 2. Once the pen has left the board, trigger the mouseUp : done
 3. Change pen icon
 4. add text
-5. resize bug
-6. stroke remove highlight
-7. remove the highlight with eraser
 
 ---
 

@@ -8,21 +8,9 @@ interface IProps {
   onChange: (value: number) => void;
 }
 
-const Wrapper = styled.div`
-  height: 100px;
-  position: relative;
-  width: 20px;
-`;
-
 const Input = styled.input.attrs({ type: "range" })`
-  width: 100px;
-  height: 20px;
-  margin: 0;
-  transform-origin: 50px 50px;
-  transform: rotate(-90deg);
-  position: absolute;
-  left: 0px;
-  top: 0px;
+  width: 120px;
+  margin: 0 8px;
 
   &::-webkit-slider-thumb {
     cursor: pointer;
@@ -31,16 +19,14 @@ const Input = styled.input.attrs({ type: "range" })`
 
 const Slider = ({ min, max, value, onChange }: IProps) => {
   return (
-    <Wrapper>
-      <Input
-        min={min}
-        max={max}
-        value={value}
-        onChange={(event) => {
-          onChange(parseInt(event.target.value));
-        }}
-      />
-    </Wrapper>
+    <Input
+      min={min}
+      max={max}
+      value={value}
+      onChange={(event) => {
+        onChange(parseInt(event.target.value));
+      }}
+    />
   );
 };
 

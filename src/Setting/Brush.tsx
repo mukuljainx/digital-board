@@ -5,8 +5,9 @@ import brush from "../assets/brush.svg";
 import Popup from "../components/Popup";
 import ColorPicker from "../components/ColorPicker";
 import Slider from "../components/Slider";
-import { ItemWrapper, Icon, Badge } from "./atom";
+import { ItemWrapper, Icon, Badge, Label } from "./atom";
 import { IBoardSetting } from "../interfaces";
+import useColor from "./useColorHook";
 
 interface IProps {
   selected: boolean;
@@ -24,6 +25,7 @@ const Wrapper = styled.div`
 const Brush = ({ selected, onChange, onClick }: IProps) => {
   const [color, setColor] = React.useState("rgb(0,0,0)");
   const [width, setWidth] = React.useState(1);
+  const picker = useColor();
   const firstRun = React.useRef(true);
 
   React.useEffect(() => {
@@ -52,9 +54,14 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
     >
       <Wrapper>
         <ItemWrapper>
-          <ColorPicker value={color} onChange={(color) => setColor(color)} />
+          <ColorPicker
+            {...picker}
+            value={color}
+            onChange={(color) => setColor(color)}
+          />
         </ItemWrapper>
-        <ItemWrapper column>
+        <ItemWrapper flex>
+          <Label>Size</Label>
           <Slider
             value={width}
             min={1}

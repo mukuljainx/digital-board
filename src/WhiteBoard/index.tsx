@@ -19,6 +19,23 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
+const Button = styled.button`
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  background: white;
+  border: 2px solid #efefef;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background: #efefef;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
 const WhiteBoard = (dirtyProps: IProps) => {
   const props = { ...boardSettings, ...dirtyProps };
 
@@ -35,6 +52,27 @@ const WhiteBoard = (dirtyProps: IProps) => {
     if (points.current.length > 1) {
       points.current = [points.current[1]];
     }
+  };
+
+  const clearBoard = () => {
+    if (highlightRef.current) {
+      highlightRef
+        .current!.getContext("2d")!
+        .clearRect(
+          0,
+          0,
+          highlightRef.current!.offsetWidth,
+          highlightRef.current!.offsetHeight
+        );
+    }
+    canvasRef
+      .current!.getContext("2d")!
+      .clearRect(
+        0,
+        0,
+        canvasRef.current!.offsetWidth,
+        canvasRef.current!.offsetHeight
+      );
   };
 
   const drawOnCanvas = (plots: Plots) => {
@@ -122,6 +160,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
           onMouseUp={handleMouseUp}
         />
       )}
+      <Button onClick={clearBoard}>Clear Board</Button>
     </Wrapper>
   );
 };

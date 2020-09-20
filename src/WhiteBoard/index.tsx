@@ -148,6 +148,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
         onMouseMove={handleMouseMove}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
       />
       {props.highlight && (
         <Canvas
@@ -158,6 +159,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
           onMouseMove={handleMouseMove}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
         />
       )}
       <Button onClick={clearBoard}>Clear Board</Button>

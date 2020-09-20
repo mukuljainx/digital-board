@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 `;
 
 const Brush = ({ selected, onChange, onClick }: IProps) => {
-  const [color, setColor] = React.useState("yellow");
+  const [color, setColor] = React.useState("rgb(255,255,0)");
   const firstRun = React.useRef(true);
 
   React.useEffect(() => {

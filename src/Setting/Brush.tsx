@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 `;
 
 const Brush = ({ selected, onChange, onClick }: IProps) => {
-  const [color, setColor] = React.useState("black");
+  const [color, setColor] = React.useState("rgb(0,0,0)");
   const [width, setWidth] = React.useState(1);
   const firstRun = React.useRef(true);
 
@@ -68,4 +68,4 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
   );
 };
 
-export default React.memo(Brush);
+export default Brush;

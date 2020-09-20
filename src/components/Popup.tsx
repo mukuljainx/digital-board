@@ -36,7 +36,7 @@ const Popup = ({ trigger, children, offset, allowed }: IProps) => {
         left: trigger.x - popup.width + (offset ? offset.x || 0 : 0),
       });
     }
-  }, [show]);
+  }, [show, offset]);
 
   React.useEffect(() => {
     if (typeof allowed === "boolean" && !allowed) {
@@ -68,4 +68,4 @@ const Popup = ({ trigger, children, offset, allowed }: IProps) => {
   );
 };
 
-export default Popup;
+export default React.memo(Popup);

@@ -1,21 +1,31 @@
 import * as React from "react";
+import { IBoardSetting } from "../interfaces";
 
 type Plots = Array<{ x: number; y: number }>;
 
-const WhiteBoard = () => {
+type IProps = Partial<IBoardSetting>;
+
+const defaultProps = {
+  width: 2,
+  color: "black",
+  smooth: "round" as IProps["smooth"],
+};
+
+const WhiteBoard = (dirtyProps: IProps) => {
+  const props = { ...defaultProps, ...dirtyProps };
+
   const [drawing, setDrawing] = React.useState(false);
   const points = React.useRef<Plots>([]);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const canvasContext = React.useRef<CanvasRenderingContext2D | null>(null);
 
-  // const resetPoints = () => {
-  //   points.current = [points.current[1]];
-  // };
-
-  const drawOnCanvas = (plots: Plots, color = "black", width = 1) => {
+  const drawOnCanvas = (plots: Plots) => {
     const ctx = canvasContext.current!;
 
-    ctx.lineWidth = width;
+    ctx.lineWidth = props.width;
+    ctx.lineCap = props.smooth!;
+    ctx.strokeStyle = props.color;
+
     ctx.beginPath();
     ctx.moveTo(plots[0].x, plots[0].y);
 
@@ -24,7 +34,6 @@ const WhiteBoard = () => {
     }
 
     ctx.stroke();
-    // resetPoints();
   };
 
   const handleMouseMove = (reactEvent: React.MouseEvent) => {
@@ -62,14 +71,16 @@ const WhiteBoard = () => {
 
   React.useEffect(() => {
     canvasContext.current = canvasRef.current!.getContext("2d");
+    canvasRef.current!.height = document.body.offsetHeight;
+    canvasRef.current!.width = document.body.offsetWidth;
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
       id="drawCanvas"
-      width="800"
-      height="600"
+      width="100%"
+      height="100%"
       style={{ border: "1px solid" }}
       onMouseMove={handleMouseMove}
       onMouseDown={handleMouseDown}

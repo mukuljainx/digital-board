@@ -14,3 +14,16 @@ Make strokes which removes the drawing part, drawn over.
 #### Remember the edge case
 
 1. Strokes in single click (check the brush with greater width)
+2. Once the pen has left the board, trigger the mouseUp
+
+---
+
+Globals
+
+boardsetting
+
+#### Flat icon
+
+paint brush: Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+
+marker: Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>

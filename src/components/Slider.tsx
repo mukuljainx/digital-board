@@ -8,21 +8,39 @@ interface IProps {
   onChange: (value: number) => void;
 }
 
+const Wrapper = styled.div`
+  height: 100px;
+  position: relative;
+  width: 20px;
+`;
+
 const Input = styled.input.attrs({ type: "range" })`
-  -webkit-appearance: slider-vertical; /* WebKit */
-  width: 24px;
+  width: 100px;
+  height: 20px;
+  margin: 0;
+  transform-origin: 50px 50px;
+  transform: rotate(-90deg);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+
+  &::-webkit-slider-thumb {
+    cursor: pointer;
+  }
 `;
 
 const Slider = ({ min, max, value, onChange }: IProps) => {
   return (
-    <Input
-      min={min}
-      max={max}
-      value={value}
-      onChange={(event) => {
-        onChange(parseInt(event.target.value));
-      }}
-    />
+    <Wrapper>
+      <Input
+        min={min}
+        max={max}
+        value={value}
+        onChange={(event) => {
+          onChange(parseInt(event.target.value));
+        }}
+      />
+    </Wrapper>
   );
 };
 

@@ -15,6 +15,11 @@ Make strokes which removes the drawing part, drawn over. : done
 
 1. Strokes in single click (check the brush with greater width) : done
 2. Once the pen has left the board, trigger the mouseUp : done
+3. Change pen icon
+4. add text
+5. resize bug
+6. stroke remove highlight
+7. remove the highlight with eraser
 
 ---
 
@@ -29,3 +34,5 @@ paint brush: Icons made by <a href="https://www.flaticon.com/authors/freepik" ti
 marker: Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
 eraser: Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+
+pen: ctx.strokeStyle = props.color;

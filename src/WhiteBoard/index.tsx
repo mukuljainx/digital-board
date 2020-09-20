@@ -11,6 +11,7 @@ const Canvas = styled.canvas`
   position: absolute;
   top: 0;
   left: 0;
+  cursor: crosshair;
 `;
 
 const Wrapper = styled.div`
@@ -76,9 +77,10 @@ const WhiteBoard = (dirtyProps: IProps) => {
   };
 
   const drawOnCanvas = (plots: Plots) => {
-    const ctx = props.highlight
-      ? highlightRef.current!.getContext("2d")!
-      : canvasRef.current!.getContext("2d")!;
+    const ctx =
+      props.highlight && !props.eraser
+        ? highlightRef.current!.getContext("2d")!
+        : canvasRef.current!.getContext("2d")!;
 
     ctx.lineWidth = props.width;
     ctx.lineCap = props.smooth!;

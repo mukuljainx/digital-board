@@ -30,6 +30,7 @@ export const ItemWrapper = styled.div<{ selected?: boolean; column?: boolean }>`
 `;
 
 export const Badge = styled.span`
+  margin-top: 16px;
   padding: 4px 4px;
   background: #efefef;
   border-radius: 4px;

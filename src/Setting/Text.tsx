@@ -50,7 +50,7 @@ const Text = ({ selected, onChange, onClick }: IProps) => {
   const [fontSize, setFontSize] = React.useState(14);
   const firstRun = React.useRef(true);
   const picker = useColor();
-  const [color, setColor] = React.useState("rgb(0,0,0)");
+  const [color, setColor] = React.useState("#000000");
 
   const handleFontSizeClick = (event: React.MouseEvent) => {
     setFontSize(

@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 `;
 
 const HighLighter = ({ selected, onChange, onClick }: IProps) => {
-  const [color, setColor] = React.useState("rgb(255,255,0)");
+  const [color, setColor] = React.useState("#FFFF00");
   const picker = useColor();
   const firstRun = React.useRef(true);
 

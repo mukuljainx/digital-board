@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 `;
 
 const Brush = ({ selected, onChange, onClick }: IProps) => {
-  const [color, setColor] = React.useState("rgb(0,0,0)");
+  const [color, setColor] = React.useState("#000000");
   const [width, setWidth] = React.useState(1);
   const picker = useColor();
   const firstRun = React.useRef(true);
@@ -52,7 +52,7 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
         </ItemWrapper>
       }
     >
-      <Wrapper>
+      <Wrapper style={{ width: "208px" }}>
         <ItemWrapper>
           <ColorPicker
             {...picker}

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { IBoardSetting } from "../interfaces";
 import { boardSettings } from "../default";
 import TextArea from "../components/TextArea";
+import { debug } from "console";
 
 type Plots = Array<{ x: number; y: number }>;
 
@@ -97,6 +98,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
     const value = event.target.value;
     const ctx = canvasRef.current!.getContext("2d")!;
     ctx.font = `${props.fontSize}px Arial`;
+    ctx.globalCompositeOperation = "source-over";
     ctx.fillStyle = props.color;
     ctx.fillText(
       value,

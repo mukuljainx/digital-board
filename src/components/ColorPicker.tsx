@@ -28,7 +28,6 @@ const Input = styled.input.attrs({ type: "color" })`
 const Color = styled.div`
   width: 24px;
   height: 24px;
-  border: 1px solid #efefef;
   border-radius: 100%;
 `;
 
@@ -76,9 +75,16 @@ const RemoveIcon = styled.button`
   }
 `;
 
-const ColorWrapper = styled.div`
+const ColorWrapper = styled.div<{ selected: boolean }>`
   margin: 4px;
   position: relative;
+  ${({ selected }) =>
+    selected
+      ? `background: #ddd; 
+        padding: 4px;
+        margin: 0px;
+        border-radius: 4px;`
+      : ""}
   &:hover {
     ${RemoveIcon} {
       display: block;
@@ -99,7 +105,7 @@ const ColorPicker = ({
   const handleColorClick = () => {
     if (inputRef.current) {
       inputRef.current.click();
-      addColor("rgb(0,0,0)");
+      addColor("#000000");
     }
   };
 
@@ -120,7 +126,7 @@ const ColorPicker = ({
   return (
     <Wrapper>
       {colors.map((color, index) => (
-        <ColorWrapper key={index}>
+        <ColorWrapper key={index} selected={color === value}>
           <RemoveIcon data-index={index} onClick={handleRemoveClick}>
             <span data-index={index}>X</span>
           </RemoveIcon>

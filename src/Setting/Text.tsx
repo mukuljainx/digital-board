@@ -94,6 +94,7 @@ const Text = ({ selected, onChange, onClick }: IProps) => {
           <FontSizeWrapper>
             {[12, 14, 18].map((size) => (
               <FontSize
+                key={size}
                 onClick={handleFontSizeClick}
                 data-size={size}
                 selected={fontSize === size}

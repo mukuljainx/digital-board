@@ -41,19 +41,19 @@ const Setting = ({ setSettings }: IProps) => {
 
   return (
     <Wrapper>
-      <Text
-        onClick={() => {
-          setSelected("TEXT");
-        }}
-        onChange={(params) => updateSetting({ ...params, text: true })}
-        selected={"TEXT" === selected}
-      />
       <Brush
         onClick={() => {
           setSelected("BRUSH");
         }}
         onChange={updateSetting}
         selected={"BRUSH" === selected}
+      />
+      <Text
+        onClick={() => {
+          setSelected("TEXT");
+        }}
+        onChange={(params) => updateSetting({ ...params, text: true })}
+        selected={"TEXT" === selected}
       />
       <Highlighter
         onClick={() => {

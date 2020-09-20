@@ -1,7 +1,9 @@
 import * as React from "react";
+import styled from "styled-components";
+
 import { IBoardSetting } from "../interfaces";
 import { boardSettings } from "../default";
-import styled from "styled-components";
+import TextArea from "../components/TextArea";
 
 type Plots = Array<{ x: number; y: number }>;
 
@@ -11,10 +13,12 @@ const Canvas = styled.canvas`
   position: absolute;
   top: 0;
   left: 0;
-  cursor: crosshair;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ text: boolean }>`
+  ${Canvas} {
+    cursor: ${({ text }) => (text ? "text" : "crosshair")};
+  }
   position: relative;
   height: 100%;
   width: 100%;
@@ -41,13 +45,24 @@ const WhiteBoard = (dirtyProps: IProps) => {
   const props = { ...boardSettings, ...dirtyProps };
 
   const [drawing, setDrawing] = React.useState(false);
+  const [
+    textareaStyle,
+    setTextAreaStyle,
+  ] = React.useState<React.CSSProperties | null>(null);
   const points = React.useRef<Plots>([]);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const highlightRef = React.useRef<HTMLCanvasElement>(null);
+  const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
   const [dimension, setDimension] = React.useState<{
     height: number;
     width: number;
   } | null>(null);
+
+  React.useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.focus();
+    }
+  }, [textareaStyle]);
 
   const resetPoints = () => {
     if (points.current.length > 1) {
@@ -74,6 +89,21 @@ const WhiteBoard = (dirtyProps: IProps) => {
         canvasRef.current!.offsetWidth,
         canvasRef.current!.offsetHeight
       );
+  };
+
+  const handleTextAreaBlur = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const value = event.target.value;
+    const ctx = canvasRef.current!.getContext("2d")!;
+    ctx.font = `${props.fontSize}px Arial`;
+    ctx.fillStyle = props.color;
+    ctx.fillText(
+      value,
+      parseInt(textareaStyle!.left as string, 10),
+      parseInt(textareaStyle!.top as string, 10) + props.fontSize
+    );
+    setTextAreaStyle(null);
   };
 
   const drawOnCanvas = (plots: Plots) => {
@@ -114,11 +144,19 @@ const WhiteBoard = (dirtyProps: IProps) => {
   };
 
   const handleMouseDown = (reactEvent: React.MouseEvent) => {
-    console.log("handleMouseDown");
     const plots = points.current;
     const event = reactEvent.nativeEvent;
     const x = event.offsetX;
     const y = event.offsetY;
+
+    if (props.text) {
+      if (textareaStyle) {
+        return;
+      }
+      setTextAreaStyle({ top: y, left: x, fontSize: props.fontSize });
+      return;
+    }
+
     if (plots[0]) {
       const distance = Math.sqrt((x - plots[0].x) ^ (2 + (y - plots[0].y)) ^ 2);
       if (distance < props.width) return;
@@ -129,6 +167,9 @@ const WhiteBoard = (dirtyProps: IProps) => {
   };
 
   const handleMouseUp = () => {
+    if (props.text) {
+      return;
+    }
     console.log("handleMouseUp");
     points.current = [];
     setDrawing(false);
@@ -142,7 +183,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
   }, []);
 
   return (
-    <Wrapper>
+    <Wrapper text={props.text}>
       <Canvas
         ref={canvasRef}
         width={dimension ? dimension.width : "100%"}
@@ -162,6 +203,15 @@ const WhiteBoard = (dirtyProps: IProps) => {
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
+        />
+      )}
+      {textareaStyle && (
+        <TextArea
+          ref={textAreaRef}
+          rows={2000}
+          cols={2000}
+          onBlur={handleTextAreaBlur}
+          style={textareaStyle}
         />
       )}
       <Button onClick={clearBoard}>Clear Board</Button>

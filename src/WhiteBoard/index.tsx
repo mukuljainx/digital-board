@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { IBoardSetting } from "../interfaces";
 import { boardSettings } from "../default";
 import TextArea from "../components/TextArea";
-import { debug } from "console";
 
 type Plots = Array<{ x: number; y: number }>;
 
@@ -51,6 +50,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
     setTextAreaStyle,
   ] = React.useState<React.CSSProperties | null>(null);
   const points = React.useRef<Plots>([]);
+  const imageData = React.useRef<any>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const highlightRef = React.useRef<HTMLCanvasElement>(null);
   const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
@@ -64,6 +64,30 @@ const WhiteBoard = (dirtyProps: IProps) => {
       textAreaRef.current.focus();
     }
   }, [textareaStyle]);
+
+  React.useEffect(() => {
+    window.onresize = () => {
+      const ctx = canvasRef.current!.getContext("2d")!;
+      imageData.current = ctx.getImageData(
+        0,
+        0,
+        canvasRef.current!.offsetWidth,
+        canvasRef.current!.offsetHeight
+      );
+      setDimension({
+        height: document.body.offsetHeight,
+        width: document.body.offsetWidth,
+      });
+    };
+  }, []);
+
+  React.useLayoutEffect(() => {
+    if (imageData.current) {
+      const ctx = canvasRef.current!.getContext("2d")!;
+      ctx.putImageData(imageData.current, 0, 0);
+    }
+    imageData.current = null;
+  }, [dimension]);
 
   const resetPoints = () => {
     if (points.current.length > 1) {

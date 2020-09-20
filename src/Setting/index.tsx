@@ -5,6 +5,7 @@ import { IBoardSetting, BoardToolType } from "../interfaces";
 import Brush from "./Brush";
 import Highlighter from "./Highlighter";
 import { boardSettings } from "../default";
+import Eraser from "./Eraser";
 
 interface IProps {
   settings: IBoardSetting;
@@ -30,9 +31,7 @@ const Wrapper = styled.div`
 const Setting = ({ settings, setSettings }: IProps) => {
   const [selected, setSelected] = React.useState<BoardToolType>("BRUSH");
 
-  const handleBrushSettingChange = (
-    settings: Pick<IBoardSetting, "color" | "width">
-  ) => {
+  const updateSetting = (settings: Partial<IBoardSetting>) => {
     setSettings({
       ...boardSettings,
       ...settings,
@@ -55,15 +54,22 @@ const Setting = ({ settings, setSettings }: IProps) => {
         onClick={() => {
           setSelected("BRUSH");
         }}
-        onChange={handleBrushSettingChange}
+        onChange={updateSetting}
         selected={"BRUSH" === selected}
       />
       <Highlighter
         onClick={() => {
           setSelected("HIGHLIGHTER");
         }}
-        onChange={handleHighlighterSettingChange}
+        onChange={(params) => updateSetting({ ...params, highlight: true })}
         selected={"HIGHLIGHTER" === selected}
+      />
+      <Eraser
+        onClick={() => {
+          setSelected("ERASER");
+        }}
+        onChange={(params) => updateSetting({ ...params, eraser: true })}
+        selected={"ERASER" === selected}
       />
     </Wrapper>
   );

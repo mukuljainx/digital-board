@@ -2,14 +2,14 @@ import * as React from "react";
 import styled from "styled-components";
 
 import { IBoardSetting } from "../interfaces";
-import highlighter from "../assets/highlighter.svg";
+import eraser from "../assets/eraser.svg";
 import Popup from "../components/Popup";
-import ColorPicker from "../components/ColorPicker";
+import Slider from "../components/Slider";
 import { ItemWrapper, Icon } from "./atom";
 
 interface IProps {
   selected: boolean;
-  onChange: (params: Pick<IBoardSetting, "color" | "width">) => void;
+  onChange: (params: Pick<IBoardSetting, "width">) => void;
   onClick: () => void;
 }
 
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 `;
 
 const Brush = ({ selected, onChange, onClick }: IProps) => {
-  const [color, setColor] = React.useState("yellow");
+  const [width, setWidth] = React.useState(1);
   const firstRun = React.useRef(true);
 
   React.useEffect(() => {
@@ -29,8 +29,8 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
       firstRun.current = false;
       return;
     }
-    onChange({ width: 5, color: color });
-  }, [color]);
+    onChange({ width });
+  }, [width]);
 
   return (
     <Popup
@@ -40,17 +40,22 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
         <ItemWrapper
           onClick={() => {
             onClick();
-            onChange({ width: 5, color: color });
+            onChange({ width: width * 3 });
           }}
           selected={selected}
         >
-          <Icon src={highlighter} />
+          <Icon src={eraser} />
         </ItemWrapper>
       }
     >
       <Wrapper>
         <ItemWrapper>
-          <ColorPicker value={color} onChange={(color) => setColor(color)} />
+          <Slider
+            value={width}
+            min={1}
+            max={5}
+            onChange={(width) => setWidth(width * 3)}
+          />
         </ItemWrapper>
       </Wrapper>
     </Popup>

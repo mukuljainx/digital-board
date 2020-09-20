@@ -46,6 +46,10 @@ const WhiteBoard = (dirtyProps: IProps) => {
     ctx.lineCap = props.smooth!;
     ctx.strokeStyle = props.color;
 
+    if (props.eraser) {
+      ctx.globalCompositeOperation = "destination-out";
+    }
+
     ctx.beginPath();
     ctx.moveTo(plots[0].x, plots[0].y);
 

@@ -5,4 +5,5 @@ export const boardSettings: IBoardSetting = {
   color: "black",
   smooth: "round" as IBoardSetting["smooth"],
   highlight: false,
+  eraser: false,
 };

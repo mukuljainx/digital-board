@@ -3,8 +3,8 @@ import * as ReactDOM from "react-dom";
 import styled from "styled-components";
 
 interface IProps {
-  trigger: React.ReactNode;
-  children: React.ReactNode;
+  trigger: React.ReactElement;
+  children: React.ReactChild;
   offset?: { x?: number; y?: number };
   allowed?: boolean;
 }
@@ -46,14 +46,16 @@ const Popup = ({ trigger, children, offset, allowed }: IProps) => {
 
   return (
     <>
-      <span
+      <trigger.type
+        {...trigger.props}
         ref={triggerRef}
-        onClick={() => {
+        onClick={(event: React.MouseEvent) => {
+          if (trigger.props.onClick) {
+            trigger.props.onClick(event);
+          }
           setShow((prevState) => !prevState);
         }}
-      >
-        {trigger}
-      </span>
+      ></trigger.type>
       {show &&
         (typeof allowed === "boolean" ? allowed : true) &&
         ReactDOM.createPortal(

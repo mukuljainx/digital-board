@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { IBoardSetting, BoardToolType } from "../interfaces";
 import Brush from "./Brush";
+import Highlighter from "./Highlighter";
+import { boardSettings } from "../default";
 
 interface IProps {
   settings: IBoardSetting;
@@ -28,19 +30,40 @@ const Wrapper = styled.div`
 const Setting = ({ settings, setSettings }: IProps) => {
   const [selected, setSelected] = React.useState<BoardToolType>("BRUSH");
 
-  const handleBrushSetting = (width: number, color: string) => {
-    setSettings({ ...settings, width, color });
+  const handleBrushSettingChange = (
+    settings: Pick<IBoardSetting, "color" | "width">
+  ) => {
+    setSettings({
+      ...boardSettings,
+      ...settings,
+    });
+  };
+
+  const handleHighlighterSettingChange = (
+    settings: Pick<IBoardSetting, "color" | "width">
+  ) => {
+    setSettings({
+      ...boardSettings,
+      ...settings,
+      highlight: true,
+    });
   };
 
   return (
     <Wrapper>
       <Brush
-        onClick={(width, color) => {
-          handleBrushSetting(width, color);
+        onClick={() => {
           setSelected("BRUSH");
         }}
-        onChange={handleBrushSetting}
+        onChange={handleBrushSettingChange}
         selected={"BRUSH" === selected}
+      />
+      <Highlighter
+        onClick={() => {
+          setSelected("HIGHLIGHTER");
+        }}
+        onChange={handleHighlighterSettingChange}
+        selected={"HIGHLIGHTER" === selected}
       />
     </Wrapper>
   );

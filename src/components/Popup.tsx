@@ -6,13 +6,14 @@ interface IProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
   offset?: { x?: number; y?: number };
+  allowed?: boolean;
 }
 
 const Wrapper = styled.div`
   position: fixed;
 `;
 
-const Popup = ({ trigger, children, offset }: IProps) => {
+const Popup = ({ trigger, children, offset, allowed }: IProps) => {
   const [style, setStyle] = React.useState<React.CSSProperties | undefined>(
     undefined
   );
@@ -37,6 +38,12 @@ const Popup = ({ trigger, children, offset }: IProps) => {
     }
   }, [show]);
 
+  React.useEffect(() => {
+    if (typeof allowed === "boolean" && !allowed) {
+      setShow(false);
+    }
+  }, [allowed]);
+
   return (
     <>
       <span
@@ -48,6 +55,7 @@ const Popup = ({ trigger, children, offset }: IProps) => {
         {trigger}
       </span>
       {show &&
+        (typeof allowed === "boolean" ? allowed : true) &&
         ReactDOM.createPortal(
           <Wrapper ref={popupRef} style={style}>
             {children}

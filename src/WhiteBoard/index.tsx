@@ -1,23 +1,25 @@
 import * as React from "react";
 import { IBoardSetting } from "../interfaces";
+import { boardSettings } from "../default";
+import { debug } from "console";
 
 type Plots = Array<{ x: number; y: number }>;
 
 type IProps = Partial<IBoardSetting>;
 
-const defaultProps = {
-  width: 2,
-  color: "black",
-  smooth: "round" as IProps["smooth"],
-};
-
 const WhiteBoard = (dirtyProps: IProps) => {
-  const props = { ...defaultProps, ...dirtyProps };
+  const props = { ...boardSettings, ...dirtyProps };
 
   const [drawing, setDrawing] = React.useState(false);
   const points = React.useRef<Plots>([]);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const canvasContext = React.useRef<CanvasRenderingContext2D | null>(null);
+
+  const resetPoints = () => {
+    if (points.current.length > 1) {
+      points.current = [points.current[1]];
+    }
+  };
 
   const drawOnCanvas = (plots: Plots) => {
     const ctx = canvasContext.current!;
@@ -32,6 +34,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
     for (let i = 0; i < plots.length; i++) {
       ctx.lineTo(plots[i].x, plots[i].y);
     }
+    resetPoints();
 
     ctx.stroke();
   };
@@ -41,7 +44,6 @@ const WhiteBoard = (dirtyProps: IProps) => {
     if (drawing) {
       const x = event.offsetX;
       const y = event.offsetY;
-
       points.current.push({ x, y });
       drawOnCanvas(points.current);
     }
@@ -49,22 +51,21 @@ const WhiteBoard = (dirtyProps: IProps) => {
 
   const handleMouseDown = (reactEvent: React.MouseEvent) => {
     console.log("handleMouseDown");
+    const plots = points.current;
     const event = reactEvent.nativeEvent;
     const x = event.offsetX;
     const y = event.offsetY;
+    if (plots[0]) {
+      const distance = Math.sqrt((x - plots[0].x) ^ (2 + (y - plots[0].y)) ^ 2);
+      if (distance < props.width) return;
+    }
     points.current.push({ x, y });
-    drawOnCanvas(points.current);
+    drawOnCanvas(plots);
     setDrawing(true);
   };
 
   const handleMouseUp = () => {
     console.log("handleMouseUp");
-    if (points.current.length === 1) {
-      drawOnCanvas([
-        points.current[0],
-        { x: points.current[0].x + 1, y: points.current[0].y + 1 },
-      ]);
-    }
     points.current = [];
     setDrawing(false);
   };

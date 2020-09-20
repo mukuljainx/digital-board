@@ -1,12 +1,12 @@
 import * as React from "react";
 import styled from "styled-components";
+import { lighten } from "polished";
 
-import brush from "../assets/brush.svg";
+import { IBoardSetting } from "../interfaces";
+import highlighter from "../assets/highlighter.svg";
 import Popup from "../components/Popup";
 import ColorPicker from "../components/ColorPicker";
-import Slider from "../components/Slider";
 import { ItemWrapper, Icon } from "./atom";
-import { IBoardSetting } from "../interfaces";
 
 interface IProps {
   selected: boolean;
@@ -22,8 +22,7 @@ const Wrapper = styled.div`
 `;
 
 const Brush = ({ selected, onChange, onClick }: IProps) => {
-  const [color, setColor] = React.useState("black");
-  const [width, setWidth] = React.useState(1);
+  const [color, setColor] = React.useState("yellow");
   const firstRun = React.useRef(true);
 
   React.useEffect(() => {
@@ -31,36 +30,28 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
       firstRun.current = false;
       return;
     }
-    onChange({ width, color });
-  }, [width, color]);
+    onChange({ width: 5, color: lighten(0.1, color) });
+  }, [color]);
 
   return (
     <Popup
       allowed={selected}
-      offset={{ x: -8, y: -8 }}
+      offset={{ x: -8 }}
       trigger={
         <ItemWrapper
           onClick={() => {
             onClick();
-            onChange({ width, color });
+            onChange({ width: 5, color: lighten(0.1, color) });
           }}
           selected={selected}
         >
-          <Icon src={brush} />
+          <Icon src={highlighter} />
         </ItemWrapper>
       }
     >
       <Wrapper>
         <ItemWrapper>
           <ColorPicker value={color} onChange={(color) => setColor(color)} />
-        </ItemWrapper>
-        <ItemWrapper>
-          <Slider
-            value={width}
-            min={1}
-            max={24}
-            onChange={(width) => setWidth(width)}
-          />
         </ItemWrapper>
       </Wrapper>
     </Popup>

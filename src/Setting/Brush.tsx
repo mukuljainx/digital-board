@@ -5,7 +5,7 @@ import brush from "../assets/brush.svg";
 import Popup from "../components/Popup";
 import ColorPicker from "../components/ColorPicker";
 import Slider from "../components/Slider";
-import { ItemWrapper, Icon } from "./atom";
+import { ItemWrapper, Icon, Badge } from "./atom";
 import { IBoardSetting } from "../interfaces";
 
 interface IProps {
@@ -16,7 +16,7 @@ interface IProps {
 
 const Wrapper = styled.div`
   background: white;
-  padding: 8px 0;
+  padding: 16px 0;
   border-radius: 4px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
@@ -37,7 +37,7 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
   return (
     <Popup
       allowed={selected}
-      offset={{ x: -8, y: -8 }}
+      offset={{ x: -8, y: -16 }}
       trigger={
         <ItemWrapper
           onClick={() => {
@@ -54,13 +54,14 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
         <ItemWrapper>
           <ColorPicker value={color} onChange={(color) => setColor(color)} />
         </ItemWrapper>
-        <ItemWrapper>
+        <ItemWrapper column>
           <Slider
             value={width}
             min={1}
-            max={24}
+            max={25}
             onChange={(width) => setWidth(width)}
           />
+          <Badge>{width}</Badge>
         </ItemWrapper>
       </Wrapper>
     </Popup>

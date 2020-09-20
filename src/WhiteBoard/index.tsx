@@ -48,6 +48,8 @@ const WhiteBoard = (dirtyProps: IProps) => {
 
     if (props.eraser) {
       ctx.globalCompositeOperation = "destination-out";
+    } else {
+      ctx.globalCompositeOperation = "source-over";
     }
 
     ctx.beginPath();

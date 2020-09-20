@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   top: 16px;
   top: 50%;
   transform: translate(0, -50%);
-  padding: 8px 0;
+  padding: 16px 0;
   display: flex;
   flex-direction: column;
   background: white;
@@ -28,23 +28,13 @@ const Wrapper = styled.div`
   border-radius: 4px;
 `;
 
-const Setting = ({ settings, setSettings }: IProps) => {
+const Setting = ({ setSettings }: IProps) => {
   const [selected, setSelected] = React.useState<BoardToolType>("BRUSH");
 
   const updateSetting = (settings: Partial<IBoardSetting>) => {
     setSettings({
       ...boardSettings,
       ...settings,
-    });
-  };
-
-  const handleHighlighterSettingChange = (
-    settings: Pick<IBoardSetting, "color" | "width">
-  ) => {
-    setSettings({
-      ...boardSettings,
-      ...settings,
-      highlight: true,
     });
   };
 

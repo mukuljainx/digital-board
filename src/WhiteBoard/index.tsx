@@ -1,11 +1,23 @@
 import * as React from "react";
 import { IBoardSetting } from "../interfaces";
 import { boardSettings } from "../default";
-import { debug } from "console";
+import styled from "styled-components";
 
 type Plots = Array<{ x: number; y: number }>;
 
 type IProps = Partial<IBoardSetting>;
+
+const Canvas = styled.canvas`
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+  height: 100%;
+  width: 100%;
+`;
 
 const WhiteBoard = (dirtyProps: IProps) => {
   const props = { ...boardSettings, ...dirtyProps };
@@ -13,7 +25,11 @@ const WhiteBoard = (dirtyProps: IProps) => {
   const [drawing, setDrawing] = React.useState(false);
   const points = React.useRef<Plots>([]);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
-  const canvasContext = React.useRef<CanvasRenderingContext2D | null>(null);
+  const highlightRef = React.useRef<HTMLCanvasElement>(null);
+  const [dimension, setDimension] = React.useState<{
+    height: number;
+    width: number;
+  } | null>(null);
 
   const resetPoints = () => {
     if (points.current.length > 1) {
@@ -22,7 +38,9 @@ const WhiteBoard = (dirtyProps: IProps) => {
   };
 
   const drawOnCanvas = (plots: Plots) => {
-    const ctx = canvasContext.current!;
+    const ctx = props.highlight
+      ? highlightRef.current!.getContext("2d")!
+      : canvasRef.current!.getContext("2d")!;
 
     ctx.lineWidth = props.width;
     ctx.lineCap = props.smooth!;
@@ -70,23 +88,35 @@ const WhiteBoard = (dirtyProps: IProps) => {
     setDrawing(false);
   };
 
-  React.useEffect(() => {
-    canvasContext.current = canvasRef.current!.getContext("2d");
-    canvasRef.current!.height = document.body.offsetHeight;
-    canvasRef.current!.width = document.body.offsetWidth;
+  React.useLayoutEffect(() => {
+    setDimension({
+      height: document.body.offsetHeight,
+      width: document.body.offsetWidth,
+    });
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      id="drawCanvas"
-      width="100%"
-      height="100%"
-      style={{ border: "1px solid" }}
-      onMouseMove={handleMouseMove}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-    />
+    <Wrapper>
+      <Canvas
+        ref={canvasRef}
+        width={dimension ? dimension.width : "100%"}
+        height={dimension ? dimension.height : "100%"}
+        onMouseMove={handleMouseMove}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+      />
+      {props.highlight && (
+        <Canvas
+          style={{ opacity: 0.5 }}
+          ref={highlightRef}
+          width={dimension ? dimension.width : "100%"}
+          height={dimension ? dimension.height : "100%"}
+          onMouseMove={handleMouseMove}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+        />
+      )}
+    </Wrapper>
   );
 };
 

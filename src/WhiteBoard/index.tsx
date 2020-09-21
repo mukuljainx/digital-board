@@ -134,7 +134,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
 
   const drawOnCanvas = (plots: Plots) => {
     const ctx =
-      props.highlight && !props.eraser
+      props.tool === "HIGHLIGHTER"
         ? highlightRef.current!.getContext("2d")!
         : canvasRef.current!.getContext("2d")!;
 
@@ -142,7 +142,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
     ctx.lineCap = props.smooth!;
     ctx.strokeStyle = props.color;
 
-    if (props.eraser) {
+    if (props.tool === "ERASER") {
       ctx.globalCompositeOperation = "destination-out";
     } else {
       ctx.globalCompositeOperation = "source-over";
@@ -175,7 +175,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
     const x = event.offsetX;
     const y = event.offsetY;
 
-    if (props.text) {
+    if (props.tool === "TEXT") {
       if (textareaStyle) {
         return;
       }
@@ -193,10 +193,9 @@ const WhiteBoard = (dirtyProps: IProps) => {
   };
 
   const handleMouseUp = () => {
-    if (props.text) {
+    if (props.tool === "TEXT") {
       return;
     }
-    console.log("handleMouseUp");
     points.current = [];
     setDrawing(false);
   };
@@ -209,7 +208,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
   }, []);
 
   return (
-    <Wrapper text={props.text}>
+    <Wrapper text={props.tool === "TEXT"}>
       <Canvas
         ref={canvasRef}
         width={dimension ? dimension.width : "100%"}
@@ -219,7 +218,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       />
-      {props.highlight && (
+      {props.tool === "HIGHLIGHTER" && (
         <Canvas
           style={{ opacity: 0.5 }}
           ref={highlightRef}

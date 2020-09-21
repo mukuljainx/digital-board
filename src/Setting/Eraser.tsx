@@ -30,7 +30,7 @@ const Eraser = ({ selected, onChange, onClick }: IProps) => {
       return;
     }
     onChange({ width: width * 3 });
-  }, [width]);
+  }, [width, onChange]);
 
   return (
     <Popup

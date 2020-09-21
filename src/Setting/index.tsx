@@ -1,8 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { IBoardSetting, BoardToolType } from "../interfaces";
-import { boardSettings } from "../default";
+import { IBoardSetting } from "../interfaces";
 import Brush from "./Brush";
 import Highlighter from "./Highlighter";
 import Eraser from "./Eraser";
@@ -10,7 +9,7 @@ import Text from "./Text";
 
 interface IProps {
   settings: IBoardSetting;
-  setSettings: (setting: IBoardSetting) => void;
+  setSettings: React.Dispatch<React.SetStateAction<IBoardSetting>>;
 }
 
 const Wrapper = styled.div`
@@ -24,50 +23,49 @@ const Wrapper = styled.div`
   flex-direction: column;
   background: white;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  /* border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px; */
   border-radius: 4px;
 `;
 
-const Setting = ({ setSettings }: IProps) => {
-  const [selected, setSelected] = React.useState<BoardToolType>("BRUSH");
-
-  const updateSetting = (settings: Partial<IBoardSetting>) => {
-    setSettings({
-      ...boardSettings,
-      ...settings,
-    });
-  };
+const Setting = ({ settings, setSettings }: IProps) => {
+  const updateSetting = React.useCallback(
+    (newSettings: Partial<IBoardSetting>) => {
+      setSettings((prevState) => ({
+        ...prevState,
+        ...newSettings,
+      }));
+    },
+    [setSettings]
+  );
 
   return (
     <Wrapper>
       <Brush
         onClick={() => {
-          setSelected("BRUSH");
+          updateSetting({ tool: "BRUSH" });
         }}
         onChange={updateSetting}
-        selected={"BRUSH" === selected}
+        selected={"BRUSH" === settings.tool}
       />
       <Text
         onClick={() => {
-          setSelected("TEXT");
+          updateSetting({ tool: "TEXT" });
         }}
-        onChange={(params) => updateSetting({ ...params, text: true })}
-        selected={"TEXT" === selected}
+        onChange={updateSetting}
+        selected={"TEXT" === settings.tool}
       />
       <Highlighter
         onClick={() => {
-          setSelected("HIGHLIGHTER");
+          updateSetting({ tool: "HIGHLIGHTER" });
         }}
-        onChange={(params) => updateSetting({ ...params, highlight: true })}
-        selected={"HIGHLIGHTER" === selected}
+        onChange={updateSetting}
+        selected={"HIGHLIGHTER" === settings.tool}
       />
       <Eraser
         onClick={() => {
-          setSelected("ERASER");
+          updateSetting({ tool: "ERASER" });
         }}
-        onChange={(params) => updateSetting({ ...params, eraser: true })}
-        selected={"ERASER" === selected}
+        onChange={updateSetting}
+        selected={"ERASER" === settings.tool}
       />
     </Wrapper>
   );

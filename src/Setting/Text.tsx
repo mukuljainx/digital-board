@@ -64,7 +64,7 @@ const Text = ({ selected, onChange, onClick }: IProps) => {
       return;
     }
     onChange({ fontSize, color });
-  }, [fontSize, color]);
+  }, [fontSize, color, onChange]);
 
   return (
     <Popup
@@ -73,6 +73,7 @@ const Text = ({ selected, onChange, onClick }: IProps) => {
       trigger={
         <ItemWrapper
           onClick={() => {
+            debugger;
             onClick();
             onChange({ fontSize, color });
           }}

@@ -4,9 +4,10 @@ export const boardSettings: IBoardSetting = {
   width: 2,
   color: "black",
   smooth: "round" as IBoardSetting["smooth"],
-  highlight: false,
-  eraser: false,
-  text: false,
+  // highlight: false,
+  // eraser: false,
+  // text: false,
+  tool: "BRUSH",
   fontSize: 14,
 };
 

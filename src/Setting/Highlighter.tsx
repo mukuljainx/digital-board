@@ -32,7 +32,7 @@ const HighLighter = ({ selected, onChange, onClick }: IProps) => {
       return;
     }
     onChange({ width: 5, color: color });
-  }, [color, picker.colors]);
+  }, [color, picker.colors, onChange]);
 
   return (
     <Popup

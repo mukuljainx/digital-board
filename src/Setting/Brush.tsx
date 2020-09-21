@@ -34,7 +34,7 @@ const Brush = ({ selected, onChange, onClick }: IProps) => {
       return;
     }
     onChange({ width, color });
-  }, [width, color]);
+  }, [width, color, onChange]);
 
   return (
     <Popup

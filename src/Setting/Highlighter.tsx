@@ -37,7 +37,7 @@ const HighLighter = ({ selected, onChange, onClick }: IProps) => {
   return (
     <Popup
       allowed={selected}
-      offset={{ x: -8 }}
+      offset={{ x: -8, y: -12 }}
       trigger={
         <ItemWrapper
           onClick={() => {

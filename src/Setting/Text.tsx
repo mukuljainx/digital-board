@@ -69,7 +69,7 @@ const Text = ({ selected, onChange, onClick }: IProps) => {
   return (
     <Popup
       allowed={selected}
-      offset={{ x: -8, y: -80 }}
+      offset={{ x: -8, y: -12 }}
       trigger={
         <ItemWrapper
           onClick={() => {

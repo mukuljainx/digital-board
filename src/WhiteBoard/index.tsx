@@ -121,7 +121,9 @@ const WhiteBoard = (dirtyProps: IProps) => {
   ) => {
     const value = event.target.value;
     const ctx = canvasRef.current!.getContext("2d")!;
-    ctx.font = `${props.fontSize}px Arial`;
+    ctx.font = `${props.fontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif`;
     ctx.globalCompositeOperation = "source-over";
     ctx.fillStyle = props.color;
     ctx.fillText(
@@ -232,6 +234,7 @@ const WhiteBoard = (dirtyProps: IProps) => {
       )}
       {textareaStyle && (
         <TextArea
+          color={props.color}
           ref={textAreaRef}
           rows={2000}
           cols={2000}
